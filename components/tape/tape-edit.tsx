@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,6 +15,10 @@ const TapeEditor: React.FC = () => {
   const tapeCurrent = tape.map((x) => (x === '_' ? ' ' : x)).join('');
 
   const [newTape, sNT] = useState(tapeCurrent);
+
+  useEffect(() => {
+    sNT(tapeCurrent);
+  }, [tapeCurrent]);
 
   const handleClickOpen = () => {
     setOpen(true);
