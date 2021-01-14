@@ -61,7 +61,9 @@ const AddInstruction: React.FC = () => {
       >
         <DialogTitle id="form-dialog-title">Add instruction</DialogTitle>
         <DialogContent>
-          <DialogContentText>You can assign new state here</DialogContentText>
+          <DialogContentText>
+            You can create new instruction here
+          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
