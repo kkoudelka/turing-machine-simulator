@@ -12,6 +12,8 @@ export interface IAppContext {
   write?: (char: string) => void;
   currentSymbol?: string;
   instructions: IInstruction[];
+  currentInstruction?: IInstruction;
+  setCurrentInstruction?: (instruction: IInstruction) => void;
 }
 
 const defaults: IAppContext = {
@@ -36,6 +38,7 @@ const defaults: IAppContext = {
     '_',
   ],
   instructions: sampleInstructions,
+  currentInstruction: null,
 };
 
 export const AppContext = createContext<IAppContext>(defaults);
@@ -46,6 +49,10 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
   const [currentState, setCurrentState] = useState(defaults.machineState);
   const [headIndex, setHeadIndex] = useState(defaults.headIndex);
   const [line, setLine] = useState(defaults.line);
+
+  const [currentInstruction, setCurrentInstruction] = useState<IInstruction>(
+    defaults.currentInstruction,
+  );
 
   const headLeft = (): boolean => {
     if (headIndex == 0) return false;
@@ -94,6 +101,8 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
         setMachineState: updateState,
         currentSymbol,
         instructions: defaults.instructions,
+        currentInstruction,
+        setCurrentInstruction,
       }}
     >
       {children}

@@ -20,11 +20,9 @@ const useStyles = makeStyles({
   },
 });
 
-const rows = sampleInstructions;
-
 const StateInfo: React.FC = () => {
   const classes = useStyles();
-  const { machineState, currentSymbol } = useAppContext();
+  const { currentInstruction, instructions } = useAppContext();
 
   return (
     <>
@@ -40,8 +38,11 @@ const StateInfo: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={`instruction-${index}`}>
+            {instructions.map((row, index) => (
+              <TableRow
+                key={`instruction-${index}`}
+                selected={row == currentInstruction}
+              >
                 <TableCell align="center" component="th" scope="row">
                   {row.state}
                 </TableCell>

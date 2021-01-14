@@ -22,7 +22,10 @@ const Controls: React.FC = () => {
     instructions,
     write,
     setMachineState,
+    setCurrentInstruction,
+    currentInstruction,
   } = useAppContext();
+
   const [playing, setPlaying] = useState(false);
 
   const classes = useStyles();
@@ -46,11 +49,12 @@ const Controls: React.FC = () => {
 
     if (!validStep) {
       stopPlaying();
+      setCurrentInstruction(null);
       return;
     }
 
-    const toWrite = validStep.write == '' ? '_' : validStep.write;
-    write(toWrite);
+    setCurrentInstruction(validStep);
+    if (validStep.write != '') write(validStep.write);
 
     if (validStep.move == 'LEFT') headLeft();
     else headRight();
