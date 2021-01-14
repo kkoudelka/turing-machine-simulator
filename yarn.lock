@@ -239,15 +239,6 @@
   resolved "https://registry.yarnpkg.com/@now/build-utils/-/build-utils-2.6.0.tgz#8f3dcf32fde8046423d8bd83bbb3cc027442b6a4"
   integrity sha512-ymGvCoI5svFMZixCrYb3IykvvQ7lhQydVvK40qq8rZfKFrLBg3mTts9LoZGL0yp0NJL3Y5TX9enz9u6oYerH+w==
 
-"@now/node@^1.8.5":
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/@now/node/-/node-1.8.5.tgz#471196dbe8221c9f20692e13cf0f4272c6cf3def"
-  integrity sha512-dZ/ZzOLug0ap/jiLVnmwS93PpbNjGR/SkDQjQ+BFRTTi2vUZ768CGUpmgoZy81uxLjZL9xlMIhmTVHwjfxu7WA==
-  dependencies:
-    "@types/node" "*"
-    ts-node "8.9.1"
-    typescript "3.9.3"
-
 "@opentelemetry/api@0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@opentelemetry/api/-/api-0.14.0.tgz#4e17d8d2f1da72b19374efa7b6526aa001267cae"
@@ -294,6 +285,15 @@
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-2.7.0.tgz#b187a4ad970352d81b8f5f974c215f1268867727"
   integrity sha512-WyTjeFpIOfUTLWB+LrJEAbs03SKD0lcA26CMt2tzPF+jaGL/hjCcRxkZJhMSRUu3LAesjKtQ7zGUuFtV0l5S3w==
+
+"@vercel/node@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@vercel/node/-/node-1.9.0.tgz#6b64f3b9a962ddb1089276fad00f441a1f4b9cf0"
+  integrity sha512-Vk/ZpuY4Cdc8oUwBi/kf8qETRaJb/KYdFddVkLuS10QwA0yJx+RQ11trhZ1KFUdc27aBr5S2k8/dDxK8sLr+IA==
+  dependencies:
+    "@types/node" "*"
+    ts-node "8.9.1"
+    typescript "3.9.3"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
