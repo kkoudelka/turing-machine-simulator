@@ -19,6 +19,7 @@ class TMSimApp extends App<{}> {
     return (
       <>
         <Head>
+          <title>Turing Machine Simulator</title>
           <link rel="stylesheet" href="/main.css" />
         </Head>
         <noscript>This app requieres JavaScript to run!</noscript>
