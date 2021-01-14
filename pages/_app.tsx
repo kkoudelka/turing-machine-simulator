@@ -2,7 +2,7 @@ import React from 'react';
 import { AppContextProvider } from '../src/contexts/app-context';
 import App from 'next/app';
 
-class SazavaApp extends App<{}> {
+class TMSimApp extends App<{}> {
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -25,4 +25,4 @@ class SazavaApp extends App<{}> {
   }
 }
 
-export default SazavaApp;
+export default TMSimApp;
