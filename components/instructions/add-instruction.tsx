@@ -42,7 +42,7 @@ const AddInstruction: React.FC = () => {
     newInstruction.newstate == '' ||
     newInstruction.state == '' ||
     newInstruction.symbol == '' ||
-    instructions.find((x) => x == newInstruction) != null;
+    instructions.includes(newInstruction);
 
   return (
     <div>

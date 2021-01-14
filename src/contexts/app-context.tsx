@@ -50,7 +50,25 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
 
   useEffect(() => {
     setHeadIndex(findFirst(tape));
+
+    const lsInstructions = localStorage.getItem('instructions');
+    if (lsInstructions) {
+      const ins = JSON.parse(lsInstructions) as IInstruction[];
+      setInstructions(ins);
+    }
   }, []);
+
+  useEffect(() => {
+    const ins = JSON.stringify(instructions);
+    localStorage.setItem('instructions', ins);
+  }, [instructions]);
+
+  useEffect(() => {
+    const max = tape.length - 1;
+    if (headIndex > max) {
+      setHeadIndex(max);
+    }
+  }, [tape]);
 
   const headLeft = (): boolean => {
     if (headIndex == 0) {

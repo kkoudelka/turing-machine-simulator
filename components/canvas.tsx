@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   cell: {
     width: '30px',
     height: '30px',
+    minWidth: '30px',
     textAlign: 'center',
     verticalAlign: 'center',
     border: '1px solid black',
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     height: '30px',
     textAlign: 'center',
     verticalAlign: 'center',
+    minWidth: '30px',
   },
 }));
 
@@ -59,7 +61,11 @@ const MachineCanvas: React.FC = () => {
                       key={`machine-head-${index}`}
                       className={classes.cellNoBorder}
                     >
-                      {headIndex == index && <ArrowDropUpIcon />}
+                      {headIndex == index && (
+                        <div id="machine-head">
+                          <ArrowDropUpIcon />
+                        </div>
+                      )}
                     </td>
                   ))}
                 </tr>

@@ -65,6 +65,11 @@ const Controls: React.FC = () => {
     }, 10);
   };
 
+  const scrollToHead = () => {
+    const anchor = document.querySelector(`#machine-head`);
+    anchor.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const makeStep = () => {
     const validStep = bestValidStep;
 
@@ -84,6 +89,8 @@ const Controls: React.FC = () => {
     if (validStep.move == 'LEFT') headLeft();
     else headRight();
 
+    scrollToHead();
+
     setMachineState(validStep.newstate);
   };
 
@@ -97,14 +104,6 @@ const Controls: React.FC = () => {
           <Grid item>
             <Typography>Current symbol: {currentSymbol}</Typography>
           </Grid>
-        </Grid>
-        <Grid item container justify="space-around">
-          {/* <Grid item>
-            <Button variant="contained" color="primary" onClick={toggle}>
-              {playing && <> {<PauseIcon />} Pause simulation</>}
-              {!playing && <> {<PlayArrowIcon />} Run simulation</>}
-            </Button>
-          </Grid> */}
           <Grid item>
             <Button
               variant="contained"
@@ -124,7 +123,10 @@ const Controls: React.FC = () => {
               variant="contained"
               size="small"
               color="primary"
-              onClick={headLeft}
+              onClick={() => {
+                headLeft();
+                scrollToHead();
+              }}
             >
               <ArrowLeftIcon /> Head left
             </Button>
@@ -134,7 +136,10 @@ const Controls: React.FC = () => {
               variant="contained"
               size="small"
               color="primary"
-              onClick={headRight}
+              onClick={() => {
+                headRight();
+                scrollToHead();
+              }}
             >
               Head right <ArrowRightIcon />
             </Button>
