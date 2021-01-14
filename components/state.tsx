@@ -11,14 +11,19 @@ import { sampleInstructions } from '../src/models';
 import { Button, Grid, Typography } from '@material-ui/core';
 import useAppContext from '../src/hooks';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
   container: {
-    maxHeight: 440,
+    maxHeight: 500,
   },
-});
+  spacing: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+  },
+}));
 
 const StateInfo: React.FC = () => {
   const classes = useStyles();
@@ -26,36 +31,43 @@ const StateInfo: React.FC = () => {
 
   return (
     <>
-      <TableContainer component={Paper} className={classes.container}>
-        <Table stickyHeader className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">State</TableCell>
-              <TableCell align="center">Symbol</TableCell>
-              <TableCell align="center">Write</TableCell>
-              <TableCell align="center">Move</TableCell>
-              <TableCell align="center">New state</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {instructions.map((row, index) => (
-              <TableRow
-                id={`instruction-${index}`}
-                key={`instruction-${index}`}
-                selected={row == currentInstruction}
-              >
-                <TableCell align="center" component="th" scope="row">
-                  {row.state}
-                </TableCell>
-                <TableCell align="center">{row.symbol}</TableCell>
-                <TableCell align="center">{row.write}</TableCell>
-                <TableCell align="center">{row.move}</TableCell>
-                <TableCell align="center">{row.newstate}</TableCell>
+      <Paper className={classes.spacing}>
+        <Typography>Instructions</Typography>
+        <TableContainer component={Paper} className={classes.container}>
+          <Table
+            stickyHeader
+            className={classes.table}
+            aria-label="simple table"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">State</TableCell>
+                <TableCell align="center">Symbol</TableCell>
+                <TableCell align="center">Write</TableCell>
+                <TableCell align="center">Move</TableCell>
+                <TableCell align="center">New state</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {instructions.map((row, index) => (
+                <TableRow
+                  id={`instruction-${index}`}
+                  key={`instruction-${index}`}
+                  selected={row == currentInstruction}
+                >
+                  <TableCell align="center" component="th" scope="row">
+                    {row.state}
+                  </TableCell>
+                  <TableCell align="center">{row.symbol}</TableCell>
+                  <TableCell align="center">{row.write}</TableCell>
+                  <TableCell align="center">{row.move}</TableCell>
+                  <TableCell align="center">{row.newstate}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </>
   );
 };

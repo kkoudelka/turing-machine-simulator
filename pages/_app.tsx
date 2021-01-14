@@ -1,6 +1,8 @@
 import React from 'react';
 import { AppContextProvider } from '../src/contexts/app-context';
 import App from 'next/app';
+import { MainLayout } from '../components/layout';
+import Head from 'next/head';
 
 class TMSimApp extends App<{}> {
   componentDidMount() {
@@ -16,9 +18,14 @@ class TMSimApp extends App<{}> {
 
     return (
       <>
+        <Head>
+          <link rel="stylesheet" href="/main.css" />
+        </Head>
         <noscript>This app requieres JavaScript to run!</noscript>
         <AppContextProvider>
-          <Component {...pageProps} />
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
         </AppContextProvider>
       </>
     );

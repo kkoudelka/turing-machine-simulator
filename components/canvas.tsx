@@ -4,11 +4,11 @@ import React from 'react';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import useAppContext from '../src/hooks';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   spacing: {
-    marginTop: '1rem',
-    marginBottom: '1rem',
-    padding: '1rem',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
   },
   table: {},
   cell: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     verticalAlign: 'center',
   },
-});
+}));
 
 const MachineCanvas: React.FC = () => {
   const classes = useStyles();
@@ -43,7 +43,7 @@ const MachineCanvas: React.FC = () => {
               <tr>
                 {tape.map((x, index) => (
                   <td key={`machine-cell-${index}`} className={classes.cell}>
-                    {x}
+                    <Typography>{x}</Typography>
                   </td>
                 ))}
               </tr>

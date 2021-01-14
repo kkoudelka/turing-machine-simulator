@@ -9,13 +9,13 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
 import { useRouter } from 'next/router';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   spacing: {
-    marginTop: '1rem',
-    marginBottom: '1rem',
-    padding: '1rem',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
   },
-});
+}));
 
 const Controls: React.FC = () => {
   const {
