@@ -3,12 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import useAppContext from '../src/hooks';
+import { TapeEditor } from './tape';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
+  },
+  tableContainer: {
+    overflowX: 'auto',
+    width: '100%',
   },
   table: {},
   cell: {
@@ -38,29 +43,32 @@ const MachineCanvas: React.FC = () => {
       {tape.length == 0 && <Typography>Nothing to display</Typography>}
       {tape.length > 0 && (
         <>
-          <table className={classes.table}>
-            <tbody>
-              <tr>
-                {tape.map((x, index) => (
-                  <td key={`machine-cell-${index}`} className={classes.cell}>
-                    <Typography>{x}</Typography>
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                {headArr.map((x, index) => (
-                  <td
-                    key={`machine-head-${index}`}
-                    className={classes.cellNoBorder}
-                  >
-                    {headIndex == index && <ArrowDropUpIcon />}
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+          <div className={classes.tableContainer}>
+            <table className={classes.table}>
+              <tbody>
+                <tr>
+                  {tape.map((x, index) => (
+                    <td key={`machine-cell-${index}`} className={classes.cell}>
+                      <Typography>{x}</Typography>
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  {headArr.map((x, index) => (
+                    <td
+                      key={`machine-head-${index}`}
+                      className={classes.cellNoBorder}
+                    >
+                      {headIndex == index && <ArrowDropUpIcon />}
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </>
       )}
+      <TapeEditor />
     </Paper>
   );
 };

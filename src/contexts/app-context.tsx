@@ -12,33 +12,20 @@ export interface IAppContext {
   write?: (char: string) => void;
   currentSymbol?: string;
   instructions: IInstruction[];
+  setInstructions?: (instructions: IInstruction[]) => void;
   currentInstruction?: IInstruction;
   setCurrentInstruction?: (instruction: IInstruction) => void;
+  setNewTape?: (tape: string[]) => void;
+  bestValidStep: IInstruction;
 }
 
 const defaults: IAppContext = {
   machineState: '0',
   headIndex: 0,
-  tape: [
-    '_',
-    '_',
-    '_',
-    '_',
-    '1',
-    '1',
-    '0',
-    '1',
-    '_',
-    '1',
-    '0',
-    '1',
-    '_',
-    '_',
-    '_',
-    '_',
-  ],
+  tape: ['1', '1', '0', '1', '_', '1', '0', '1'],
   instructions: sampleInstructions,
   currentInstruction: null,
+  bestValidStep: null,
 };
 
 const findFirst = (tape: string[]) => {
@@ -55,6 +42,8 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
   const [headIndex, setHeadIndex] = useState(defaults.headIndex);
   const [tape, setTape] = useState(defaults.tape);
 
+  const [instructions, setInstructions] = useState(defaults.instructions);
+
   const [currentInstruction, setCurrentInstruction] = useState<IInstruction>(
     defaults.currentInstruction,
   );
@@ -64,14 +53,19 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
   }, []);
 
   const headLeft = (): boolean => {
-    if (headIndex == 0) return false;
+    if (headIndex == 0) {
+      setTape(['_', ...tape]);
+      return true;
+    }
 
     setHeadIndex(headIndex - 1);
     return true;
   };
 
   const headRight = (): boolean => {
-    if (headIndex == tape.length - 1) return false;
+    if (headIndex == tape.length - 1) {
+      setTape([...tape, '_']);
+    }
 
     setHeadIndex(headIndex + 1);
     return true;
@@ -98,6 +92,10 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
 
   const currentSymbol = getCurrentSymbol();
 
+  const bestValidStep = instructions.find(
+    (x) => x.state == currentState && x.symbol == currentSymbol,
+  );
+
   return (
     <AppContext.Provider
       value={{
@@ -109,9 +107,12 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
         write,
         setMachineState: updateState,
         currentSymbol,
-        instructions: defaults.instructions,
+        instructions: instructions,
+        setInstructions,
         currentInstruction,
         setCurrentInstruction,
+        setNewTape: setTape,
+        bestValidStep,
       }}
     >
       {children}

@@ -8,6 +8,9 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
 import { useRouter } from 'next/router';
+import StateOverride from './state/state-override';
+import { useSnackbar } from 'notistack';
+import { AddInstruction } from './instructions';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -28,7 +31,9 @@ const Controls: React.FC = () => {
     setMachineState,
     setCurrentInstruction,
     currentInstruction,
+    bestValidStep,
   } = useAppContext();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const router = useRouter();
 
@@ -61,12 +66,11 @@ const Controls: React.FC = () => {
   };
 
   const makeStep = () => {
-    const validStep = instructions.find(
-      (x) => x.state == machineState && x.symbol == currentSymbol,
-    );
+    const validStep = bestValidStep;
 
     if (!validStep) {
       stopPlaying();
+      enqueueSnackbar('Cannot find next valid step.', { variant: 'error' });
       setCurrentInstruction(null);
       return;
     }
@@ -136,14 +140,10 @@ const Controls: React.FC = () => {
             </Button>
           </Grid>
           <Grid item>
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              onClick={() => window.location.reload()}
-            >
-              <SettingsBackupRestoreIcon /> Reset
-            </Button>
+            <StateOverride />
+          </Grid>
+          <Grid item>
+            <AddInstruction />
           </Grid>
         </Grid>
       </Grid>

@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import { sampleInstructions } from '../src/models';
 import { Button, Grid, Typography } from '@material-ui/core';
 import useAppContext from '../src/hooks';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -23,16 +26,33 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
   },
+  canDoThis: {
+    backgroundColor: '#9BC53D',
+  },
+  lastSuccess: {
+    backgroundColor: '#FDE74C !important',
+  },
 }));
 
 const StateInfo: React.FC = () => {
   const classes = useStyles();
-  const { currentInstruction, instructions } = useAppContext();
+  const { canDoThis, lastSuccess } = classes;
+  const {
+    currentInstruction,
+    instructions,
+    setInstructions,
+    bestValidStep,
+  } = useAppContext();
 
   return (
     <>
       <Paper className={classes.spacing}>
         <Typography>Instructions</Typography>
+        <Typography variant="body2">
+          Yellow - currently possible operation | Green - last successful
+          operation
+        </Typography>
+        <br />
         <TableContainer component={Paper} className={classes.container}>
           <Table
             stickyHeader
@@ -46,6 +66,7 @@ const StateInfo: React.FC = () => {
                 <TableCell align="center">Write</TableCell>
                 <TableCell align="center">Move</TableCell>
                 <TableCell align="center">New state</TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -53,7 +74,10 @@ const StateInfo: React.FC = () => {
                 <TableRow
                   id={`instruction-${index}`}
                   key={`instruction-${index}`}
-                  selected={row == currentInstruction}
+                  className={clsx({
+                    [canDoThis]: bestValidStep === row,
+                    [lastSuccess]: row === currentInstruction,
+                  })}
                 >
                   <TableCell align="center" component="th" scope="row">
                     {row.state}
@@ -62,6 +86,17 @@ const StateInfo: React.FC = () => {
                   <TableCell align="center">{row.write}</TableCell>
                   <TableCell align="center">{row.move}</TableCell>
                   <TableCell align="center">{row.newstate}</TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      aria-label="delete"
+                      size="small"
+                      onClick={() => {
+                        setInstructions(instructions.filter((x) => x !== row));
+                      }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -3,6 +3,7 @@ import { AppContextProvider } from '../src/contexts/app-context';
 import App from 'next/app';
 import { MainLayout } from '../components/layout';
 import Head from 'next/head';
+import { SnackbarProvider } from 'notistack';
 
 class TMSimApp extends App<{}> {
   componentDidMount() {
@@ -24,9 +25,11 @@ class TMSimApp extends App<{}> {
         </Head>
         <noscript>This app requieres JavaScript to run!</noscript>
         <AppContextProvider>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
+          <SnackbarProvider>
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
+          </SnackbarProvider>
         </AppContextProvider>
       </>
     );
