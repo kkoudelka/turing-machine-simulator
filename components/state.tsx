@@ -40,6 +40,7 @@ const StateInfo: React.FC = () => {
           <TableBody>
             {instructions.map((row, index) => (
               <TableRow
+                id={`instruction-${index}`}
                 key={`instruction-${index}`}
                 selected={row == currentInstruction}
               >

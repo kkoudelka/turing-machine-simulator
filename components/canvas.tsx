@@ -12,15 +12,15 @@ const useStyles = makeStyles({
   },
   table: {},
   cell: {
-    width: '20px',
-    height: '20px',
+    width: '30px',
+    height: '30px',
     textAlign: 'center',
     verticalAlign: 'center',
     border: '1px solid black',
   },
   cellNoBorder: {
-    width: '20px',
-    height: '20px',
+    width: '30px',
+    height: '30px',
     textAlign: 'center',
     verticalAlign: 'center',
   },
@@ -29,28 +29,24 @@ const useStyles = makeStyles({
 const MachineCanvas: React.FC = () => {
   const classes = useStyles();
 
-  const { line, headIndex } = useAppContext();
+  const { tape, headIndex } = useAppContext();
   const currentIndex = headIndex + 1;
   const headArr = Array.from(Array(currentIndex));
 
   return (
     <Paper className={classes.spacing}>
-      {line.length == 0 && <Typography>Nothing to display</Typography>}
-      {line.length > 0 && (
+      {tape.length == 0 && <Typography>Nothing to display</Typography>}
+      {tape.length > 0 && (
         <>
           <table className={classes.table}>
             <tbody>
               <tr>
-                {line.map((x, index) => (
+                {tape.map((x, index) => (
                   <td key={`machine-cell-${index}`} className={classes.cell}>
                     {x}
                   </td>
                 ))}
               </tr>
-            </tbody>
-          </table>
-          <table>
-            <tbody>
               <tr>
                 {headArr.map((x, index) => (
                   <td

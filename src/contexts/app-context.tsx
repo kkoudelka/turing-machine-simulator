@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { sampleInstructions } from '../models';
 import IInstruction from '../models/instruction';
 
@@ -8,7 +8,7 @@ export interface IAppContext {
   headLeft?: () => boolean;
   headRight?: () => boolean;
   setMachineState?: (state: string) => void;
-  line: string[];
+  tape: string[];
   write?: (char: string) => void;
   currentSymbol?: string;
   instructions: IInstruction[];
@@ -19,7 +19,7 @@ export interface IAppContext {
 const defaults: IAppContext = {
   machineState: '0',
   headIndex: 0,
-  line: [
+  tape: [
     '_',
     '_',
     '_',
@@ -41,6 +41,11 @@ const defaults: IAppContext = {
   currentInstruction: null,
 };
 
+const findFirst = (tape: string[]) => {
+  const index = tape.findIndex((x) => x != '_');
+  return index < 0 ? 0 : index;
+};
+
 export const AppContext = createContext<IAppContext>(defaults);
 
 export const AppContextProvider: React.FC<{} | IAppContext> = ({
@@ -48,11 +53,15 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
 }) => {
   const [currentState, setCurrentState] = useState(defaults.machineState);
   const [headIndex, setHeadIndex] = useState(defaults.headIndex);
-  const [line, setLine] = useState(defaults.line);
+  const [tape, setTape] = useState(defaults.tape);
 
   const [currentInstruction, setCurrentInstruction] = useState<IInstruction>(
     defaults.currentInstruction,
   );
+
+  useEffect(() => {
+    setHeadIndex(findFirst(tape));
+  }, []);
 
   const headLeft = (): boolean => {
     if (headIndex == 0) return false;
@@ -62,16 +71,16 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
   };
 
   const headRight = (): boolean => {
-    if (headIndex == line.length - 1) return false;
+    if (headIndex == tape.length - 1) return false;
 
     setHeadIndex(headIndex + 1);
     return true;
   };
 
   const write = (char: string) => {
-    let l = line;
+    let l = tape;
     l[headIndex] = char;
-    setLine(l);
+    setTape(l);
   };
 
   const updateState = (state: string) => {
@@ -79,8 +88,8 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
   };
 
   const getCurrentSymbol = (): string => {
-    if (line.length > 0) {
-      const sym = line[headIndex];
+    if (tape.length > 0) {
+      const sym = tape[headIndex];
       return sym;
     }
 
@@ -96,7 +105,7 @@ export const AppContextProvider: React.FC<{} | IAppContext> = ({
         headIndex,
         headLeft,
         headRight,
-        line,
+        tape,
         write,
         setMachineState: updateState,
         currentSymbol,

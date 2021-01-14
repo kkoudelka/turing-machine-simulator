@@ -4,6 +4,10 @@ import useAppContext from '../src/hooks';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
   spacing: {
@@ -26,20 +30,34 @@ const Controls: React.FC = () => {
     currentInstruction,
   } = useAppContext();
 
+  const router = useRouter();
+
   const [playing, setPlaying] = useState(false);
 
   const classes = useStyles();
 
   const toggle = () => {
-    setPlaying(!playing);
+    if (playing) stopPlaying();
+    else startPlaying();
   };
 
   const startPlaying = () => {
     setPlaying(true);
+    makeStep();
   };
 
   const stopPlaying = () => {
     setPlaying(false);
+  };
+
+  const handleScroll = (index: number) => {
+    const anchor = document.querySelector(`#instruction-${index}`);
+
+    setTimeout(() => {
+      if (anchor) {
+        anchor.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
+    }, 10);
   };
 
   const makeStep = () => {
@@ -52,6 +70,9 @@ const Controls: React.FC = () => {
       setCurrentInstruction(null);
       return;
     }
+
+    const index = instructions.indexOf(validStep);
+    handleScroll(index);
 
     setCurrentInstruction(validStep);
     if (validStep.write != '') write(validStep.write);
@@ -74,18 +95,18 @@ const Controls: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item container justify="space-around">
-          <Grid item>
+          {/* <Grid item>
             <Button variant="contained" color="primary" onClick={toggle}>
               {playing && <> {<PauseIcon />} Pause simulation</>}
               {!playing && <> {<PlayArrowIcon />} Run simulation</>}
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid item>
             <Button
               variant="contained"
               color="primary"
               onClick={() => {
-                if (playing) toggle();
+                if (playing) stopPlaying();
                 makeStep();
               }}
             >
@@ -95,13 +116,33 @@ const Controls: React.FC = () => {
         </Grid>
         <Grid item container justify="space-around">
           <Grid item>
-            <Button variant="contained" color="primary" onClick={headLeft}>
-              Head left
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={headLeft}
+            >
+              <ArrowLeftIcon /> Head left
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={headRight}>
-              Head right
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={headRight}
+            >
+              Head right <ArrowRightIcon />
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={() => window.location.reload()}
+            >
+              <SettingsBackupRestoreIcon /> Reset
             </Button>
           </Grid>
         </Grid>
